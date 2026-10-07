@@ -78,7 +78,7 @@ for (const width of [320,390,768,1440]) {
     const paths=['/','/recipes/chipotle-cheese-sauce/','/recipes/chicken-and-potatoes/','/recipes/smoky-chipotle-beef-pasta/','/privacy/','/404.html'];
     for(const path of paths){
       const response=await page.goto(path);
-      expect(response.status()).toBe(path==='/404.html'&&process.env.SITE_URL?404:200);
+      expect(response.status()).toBe(200); // Direct requests to the existing 404.html file succeed; unknown routes are tested separately.
       await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));
       await page.waitForFunction(()=>[...document.images].every(i=>i.complete&&i.naturalWidth>0));
       await page.evaluate(()=>window.scrollTo(0,0));
