@@ -1,0 +1,81 @@
+[
+  {
+    "slug": "chipotle-cheese-sauce",
+    "title": "Chipotle cheese sauce",
+    "category": "The signature sauce / Kitchen notes",
+    "description": "The one-pot chipotle cheese sauce from my Instagram reel. A creamy, chunky sauce with chipotle peppers, jalapeño, onion and garlic.",
+    "yield": "Batch measurements being checked",
+    "image": "chipotle-sauce.webp",
+    "imageAlt": "James pouring his chipotle cheese sauce from the cooking pot.",
+    "caption": "A frame from my original sauce reel.",
+    "ingredients": [
+      "8 oz fat-free cream cheese",
+      "7 oz reduced-fat Fiesta Blend cheese",
+      "1 can chipotle peppers in adobo — can size to confirm",
+      "1 can diced jalapeños — can size to confirm",
+      "¼ onion",
+      "2 tbsp minced garlic",
+      "RO-TEL diced tomatoes and green chilies — shown in the reel; amount to confirm"
+    ],
+    "steps": [],
+    "noteTitle": "An ingredient note before you cook",
+    "note": "My original caption didn't include the RO-TEL shown in the video, or the can sizes. I'm keeping that gap visible rather than guessing. This is the original ingredient list with that correction flagged—not yet a fully measured recipe. Exact quantities and written steps will be added once checked.",
+    "sourceUrl": "https://www.instagram.com/dadwiththedagger/reel/DdzKnTtxCSE/",
+    "sourceLabel": "Watch my original sauce reel",
+    "nutritionNote": "Nutrition and serving size are not published here until the complete batch is confirmed. Contains dairy; check all ingredient labels for other allergens.",
+    "credit": "Ingredient notes from my September 27, 2026 Instagram post. RO-TEL is visible in the original reel but missing from that caption. The photo is from the same reel."
+  },
+  {
+    "slug": "chicken-and-potatoes",
+    "title": "Chicken & potatoes",
+    "category": "Meal prep / Kitchen notes",
+    "description": "A simple chicken-and-potato meal-prep base. The portion guide below comes from my saved five-container batch; adjust your own meal to what you need.",
+    "yield": "5 portions",
+    "image": "chicken-potatoes.webp",
+    "imageAlt": "Seasoned sliced chicken and potatoes on a plate in James's kitchen.",
+    "caption": "Chicken and potatoes from my kitchen. The pictured plate is a different serving from the portion guide below.",
+    "ingredients": [
+      "1,000 g cooked chicken breast (200 g per container)",
+      "300 g baked potato slices (60 g per container)",
+      "Cooking spray, as needed",
+      "Salt, pepper, garlic powder and paprika, to taste"
+    ],
+    "steps": [
+      "Season the chicken with salt, pepper, garlic powder and paprika. Cook until the thickest part reaches 165°F (74°C), checked with a food thermometer. Rest, then slice or dice.",
+      "Slice the potatoes evenly, lightly coat with cooking spray and season. Bake at 425°F until browned and tender, flipping once. The time will depend on slice thickness and your oven.",
+      "Weigh the chicken and potatoes after cooking. Divide 1,000 g cooked chicken and 300 g baked potatoes among five containers: 200 g chicken and 60 g potatoes in each.",
+      "Cool and refrigerate promptly in shallow containers. Follow the storage guidance below; freeze portions you won't eat within the refrigerated window."
+    ],
+    "noteTitle": "Cooked weights, not raw weights",
+    "note": "The quantities above describe the finished food. Cooking changes the weight, so don't use 1,000 g of raw chicken as a substitute for 1,000 g cooked. This is my recorded portion split, not a nutrition target for everyone.",
+    "nutritionNote": "Nutrition will vary with the chicken, cooking fat, seasonings and portions. No unverified macro totals are included here.",
+    "credit": "Adapted from my saved Chicken & Potato Meal Prep notes and recipe book. The original batch records five containers with 200 g cooked chicken and 60 g baked potato slices each."
+  },
+  {
+    "slug": "smoky-chipotle-beef-pasta",
+    "title": "Smoky chipotle beef pasta",
+    "category": "Meal prep / Pasta",
+    "description": "Beef, penne and kidney beans with mozzarella and chipotle in adobo. This five-portion recipe comes from my meal-prep notebook.",
+    "yield": "5 portions",
+    "ingredients": [
+      "2 lb lean ground beef",
+      "270 g dry Barilla Protein+ penne",
+      "430 g kidney beans, drained and rinsed",
+      "220 g reduced-fat mozzarella",
+      "200 g Rao's pizza sauce",
+      "50 g chipotle peppers in adobo, chopped",
+      "Salt, pepper, garlic powder and onion powder, to taste"
+    ],
+    "steps": [
+      "Cook the penne according to its package instructions until just tender, then drain.",
+      "Cook the ground beef over medium-high heat, breaking it up as it cooks. Check that it reaches 160°F (71°C) with a food thermometer. Drain excess fat if needed and season to taste.",
+      "Stir in the drained kidney beans, pizza sauce and chopped chipotle peppers. Simmer for 3–5 minutes.",
+      "Fold in the pasta and mozzarella until evenly combined and the cheese has melted.",
+      "Divide into five portions. Refrigerate promptly in shallow containers and use the storage guidance below."
+    ],
+    "noteTitle": "Keep the ingredients consistent",
+    "note": "These are the brands and amounts recorded in my notebook. Changing the beef, pasta or cheese changes the nutrition. Add the ingredients you actually use to your own food log if you track.",
+    "nutritionNote": "Contains wheat and dairy in the listed pasta and cheese; check your exact labels for other allergens. Nutrition totals are being left out until the labels and finished yield are checked.",
+    "credit": "Adapted from my saved Smoky Chipotle High-Protein Beef Pasta notes and recipe book. Ingredients and five-portion yield are preserved; cooking safety guidance is linked below."
+  }
+]

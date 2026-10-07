@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="400" viewBox="-120 -200 240 400" role="img" aria-labelledby="title desc">
+  <title id="title">Dad With The Dagger symbol</title>
+  <desc id="desc">A minimal dagger formed from a vertical line, crossguard, and opposing angle shapes.</desc>
+  <g fill="none" stroke="#E9E2D3" stroke-width="16" stroke-linecap="round" stroke-linejoin="miter">
+    <path d="M-18-158H18 M0-126V-84 M-82-62H82 M-31-26L-82 10L-31 46 M31-26L82 10L31 46 M12-34L-12 54 M0 82V158"/>
+  </g>
+</svg>
