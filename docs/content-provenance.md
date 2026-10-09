@@ -12,7 +12,12 @@ James requested a personal website as a regular dad with a day job who wants to 
 - User-supplied discount: `DADDAGGER`, 15%.
 - HTLT's affiliate-program page describes a 15% code and commission relationship: https://www.htltsupps.com/pages/affiliate-program
 - No cart or transaction was used to validate code eligibility. Copy explains that HTLT controls current terms.
-- No products are presented as personally used without James's confirmation.
+- Turk Builder Max is the only HTLT product James explicitly confirmed using in this request. Delta Sleep, CICO Bar S'Mores, and Ferula Max are linked as requested, without implied personal use or results.
+- Four product-card photos were downloaded from HTLT's first-party Shopify product listings and resized to 1000 × 1000 pixels for local hosting. HTLT owns the product photography and packaging artwork:
+  - `htlt-turk-builder-max.png`: https://cdn.shopify.com/s/files/1/0536/1434/6423/files/TurkMax-BoxesrevFDA-mockup2.png?v=1764328169 — https://www.htltsupps.com/products/turk-builder?variant=45645992329429&sca_ref=10886340.d8RxKeL1BQC (1-Pack)
+  - `htlt-delta-sleep.jpg`: https://cdn.shopify.com/s/files/1/0536/1434/6423/files/IMG_5631.jpg?v=1780380984 — https://www.htltsupps.com/products/sleep-aid?sca_ref=10886340.d8RxKeL1BQC
+  - `htlt-cico-bar-smores.jpg`: https://cdn.shopify.com/s/files/1/0536/1434/6423/files/IMG_5656.jpg?v=1780382293 — https://www.htltsupps.com/products/cicobar-protein-bar-12-pack?variant=51296724811989&sca_ref=10886340.d8RxKeL1BQC (S'Mores variant)
+  - `htlt-ferula-max.png`: https://cdn.shopify.com/s/files/1/0536/1434/6423/files/FerulaMax-Mockup1_1.png?v=1788185356 — https://www.htltsupps.com/products/ferula-max?sca_ref=10886340.d8RxKeL1BQC
 
 ## Assets
 
@@ -44,6 +49,6 @@ James requested a personal website as a regular dad with a day job who wants to 
 ## Pending content
 
 1. Confirm sauce can sizes and RO-TEL quantity, then complete the method and measured yield.
-2. Confirm actual HTLT products and genuine personal-use notes.
+2. Add genuine personal-use notes only if James provides them for the other HTLT products.
 3. Refine the bio in James's voice and supply any preferred replacement portrait/food photos.
 4. Add more complete recipes as supplied; recalculate nutrition from exact labels before publishing it.

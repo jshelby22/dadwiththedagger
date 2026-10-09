@@ -42,7 +42,7 @@ Push `main` to run the GitHub Actions Pages workflow. The Pages source must be *
 
 - Bio is initial copy based on James's stated working-dad context. No weight-loss numbers or professional credentials are invented.
 - HTLT URL is exactly `https://www.htltsupps.com?sca_ref=10886340.d8RxKeL1BQC`. Code: `DADDAGGER`; offer: 15%, supplied by James. This is not a claim of checkout verification or universal eligibility.
-- Individual HTLT product endorsements are deliberately absent until James supplies the products he actually uses.
+- Four user-supplied HTLT product URLs are preserved with their affiliate and variant parameters. Locally hosted product photos came from HTLT's product listings. James confirmed using Turk Builder Max only; the other three cards are neutral product links, not endorsements.
 - Chipotle sauce is an **incomplete ingredient-note page**, explicitly labeled. The original reel shows RO-TEL, absent from its caption; can sizes and exact written method need confirmation. Do not add estimated nutrition or Recipe rich-result markup until finalized.
 - Other meal-prep recipes preserve recorded ingredients and portions from James's saved notes. Nutrition, prep times, ratings and claims of independent recipe testing are not fabricated.
 - No source photographs of children, private weigh-in logs, exports, credentials or Shopify admin data are published.
