@@ -31,6 +31,15 @@ test('home has the four requested sections and the exact disclosed affiliate lin
   assert.doesNotMatch(html, /(?:action|href)="[^"]*\/(?:cart|checkout)(?:[/?"])/i);
 });
 
+test('the hero uses James’s supplied two-panel photo without replacing the source', () => {
+  const $ = load(readFileSync(home, 'utf8'));
+  const hero = $('.hero-portrait img');
+  assert.equal(hero.length, 1);
+  assert.equal(hero.attr('src'), '/assets/james-progress-hero.webp');
+  assert.match(hero.attr('alt'), /Two side-by-side photos of James/);
+  assert.ok(existsSync(new URL('../site/assets/james-progress-hero.webp', import.meta.url)));
+});
+
 test('HTLT cards preserve all four supplied affiliate URLs and have matching local images', () => {
   const $ = load(readFileSync(home, 'utf8'));
   const expected = [

@@ -21,7 +21,8 @@ James requested a personal website as a regular dad with a day job who wants to 
 
 ## Assets
 
-- `james-portrait.webp`: James's existing public Linktree portrait, https://ugc.production.linktr.ee/6d718d22-c134-4e9f-8890-35c04d7db8a7_324529D6-A341-4CFF-85A4-524E2D648C59.png . Re-encoded and stripped of metadata; not presented as a new photo shoot.
+- `james-portrait.webp`: James's existing public Linktree portrait, https://ugc.production.linktr.ee/6d718d22-c134-4e9f-8890-35c04d7db8a7_324529D6-A341-4CFF-85A4-524E2D648C59.png . Re-encoded and stripped of metadata; retained as the previous hero photo, not presented as a new photo shoot.
+- `james-progress-hero.webp`: James's supplied `Desktop/weightloss/873F1997-A93E-4B85-BF9F-06D7BEA8FD95.JPG`, displayed as the homepage's top image. Resized to 1200 × 1200 WebP without metadata. The two-panel composition is kept intact; no dates, measurements, or medical interpretation are inferred from it.
 - `chicken-potatoes.webp`: cropped from James's own `IMG_2714.jpeg` in his supplied/social-content working folder. No recipe portion inferred from the photo. Recipe page explicitly distinguishes the pictured plate from the recorded five-portion batch.
 - `chipotle-sauce.webp` and `sauce-in-the-making.webp`: stills from James's own public sauce reel, https://www.instagram.com/dadwiththedagger/reel/DdzKnTtxCSE/ . No video/audio embed or third-party feed loaded on the site.
 - `dagger-mark.svg`: preserved owner brand symbol from the previous site backup. Used at modest size, not redrawn as a new logo.
