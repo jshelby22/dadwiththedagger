@@ -70,7 +70,7 @@ test('five collection recipes preserve their own ingredients, methods, photo cav
   assert.equal(homePage('.collection-grid .recipe-image .image-label').length,0);
   assert.match(homePage('.section-heading').text(),/not yet kitchen-tested/);
   assert.equal(homePage('.icon-credit').attr('href'),'https://www.flaticon.com/free-icon/arrows_13554816');
-  assert.match(homePage('.icon-credit').text(),/Arrow by Atif Arshad \/ Flaticon/);
+  assert.match(homePage('.icon-credit').text(),/designed by Atif Arshad from Flaticon/);
   assert.ok(existsSync(new URL('../site/assets/flaticon-arrows-13554816.png',import.meta.url)));
   const css=readFileSync(new URL('../site/assets/styles.css',import.meta.url),'utf8');
   assert.match(css,/flaticon-arrows-13554816\.png/);
