@@ -42,7 +42,13 @@
         <p class="hero-footnote">No perfect routine required.</p>
       </div>
       <figure class="hero-portrait">
-        <img src="/assets/james-progress-hero.webp" width="1200" height="1200" fetchpriority="high" alt="Two side-by-side photos of James standing indoors in black shorts.">
+        <div class="comparison" data-comparison style="--reveal:50%">
+          <div class="comparison-photo comparison-after"><img src="/assets/james-after-slider.webp" width="1000" height="2000" fetchpriority="high" draggable="false" alt="James standing indoors in black shorts in the after photo."><span class="comparison-label comparison-label--after" aria-hidden="true">After</span></div>
+          <div class="comparison-photo comparison-before"><img src="/assets/james-before-slider.webp" width="1000" height="2000" fetchpriority="high" draggable="false" alt="James standing indoors in black shorts in the before photo."><span class="comparison-label comparison-label--before" aria-hidden="true">Before</span></div>
+          <div class="comparison-control" data-comparison-control role="slider" tabindex="0" aria-label="Compare James's before and after photos" aria-describedby="comparison-instructions" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50% before photo shown" hidden><span class="comparison-handle" aria-hidden="true"><span>←</span><span>→</span></span></div>
+          <span class="comparison-hint" aria-hidden="true">Drag to compare</span>
+          <span class="comparison-instructions" id="comparison-instructions">Drag to reveal the before or after photo. Use the arrow keys, Home, or End with the slider focused.</span>
+        </div>
         <figcaption><span><strong>James</strong> / Dad With The Dagger</span><a href="https://www.instagram.com/dadwiththedagger/" target="_blank" rel="noopener noreferrer" aria-label="James on Instagram"><span class="arrow-icon" aria-hidden="true"></span></a></figcaption>
       </figure>
     </section>

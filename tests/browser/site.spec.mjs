@@ -95,6 +95,107 @@ test('recipe notebook strip is blank between two separator lines', async ({page}
   await expect(page.locator('.collection-grid .recipe-card')).toHaveCount(5);
 });
 
+test('hero entrance starts at 80%, reaches 50% once in view, and stops immediately on interaction', async ({page}) => {
+  await page.addInitScript(() => {
+    window.IntersectionObserver=class {
+      constructor(callback){this.callback=callback;window.testComparisonObserver=this;}
+      observe(target){this.target=target;}
+      disconnect(){}
+      fire(){this.callback([{isIntersecting:true,target:this.target}]);}
+    };
+  });
+  await page.goto('/');
+  const frame=page.locator('[data-comparison]');
+  const slider=page.getByRole('slider');
+  await expect(slider).toHaveAttribute('aria-valuenow','80');
+  await page.evaluate(()=>window.testComparisonObserver.fire());
+  await page.waitForTimeout(750);
+  const middle=Number(await slider.getAttribute('aria-valuenow'));
+  expect(middle).toBeGreaterThan(50);
+  expect(middle).toBeLessThan(80);
+  await expect(slider).toHaveAttribute('aria-valuenow','50',{timeout:3000});
+  await page.evaluate(()=>window.testComparisonObserver.fire());
+  await expect(slider).toHaveAttribute('aria-valuenow','50');
+  await page.reload();
+  await expect(slider).toHaveAttribute('aria-valuenow','80');
+  await page.evaluate(()=>window.testComparisonObserver.fire());
+  await page.waitForTimeout(300);
+  await slider.press('End');
+  await expect(slider).toHaveAttribute('aria-valuenow','100');
+  await page.waitForTimeout(1500);
+  await expect(slider).toHaveAttribute('aria-valuenow','100');
+  await expect(frame).toHaveClass(/is-interacted/);
+});
+
+test('hero comparison animates once, mouse drags without moving either photo, and keyboard works', async ({page}) => {
+  await page.goto('/',{waitUntil:'domcontentloaded'});
+  const frame=page.locator('[data-comparison]');
+  const slider=page.getByRole('slider',{name:"Compare James's before and after photos"});
+  await expect(slider).toBeVisible();
+  await expect.poll(async()=>Number(await frame.evaluate(el=>parseFloat(el.style.getPropertyValue('--reveal'))))).toBeGreaterThan(49);
+  await expect(slider).toHaveAttribute('aria-valuenow','50',{timeout:4500});
+  const fixed=await frame.locator('.comparison-photo img').evaluateAll(images=>images.map(img=>img.getBoundingClientRect().toJSON()));
+  const box=await frame.boundingBox();
+  const y=box.y+box.height/2;
+  await page.mouse.move(box.x+box.width/2,y);
+  await page.mouse.down();
+  await page.mouse.move(box.x+box.width*.2,y,{steps:5});
+  await page.mouse.up();
+  await expect(slider).toHaveAttribute('aria-valuenow','20');
+  await page.mouse.move(box.x+box.width*.8,y);
+  await page.mouse.down();
+  await page.mouse.up();
+  await expect(slider).toHaveAttribute('aria-valuenow','80');
+  expect(await frame.locator('.comparison-photo img').evaluateAll(images=>images.map(img=>img.getBoundingClientRect().toJSON()))).toEqual(fixed);
+  await slider.focus();
+  await page.keyboard.press('ArrowLeft');
+  await expect(slider).toHaveAttribute('aria-valuenow','75');
+  await page.keyboard.press('Home');
+  await expect(slider).toHaveAttribute('aria-valuenow','0');
+  await page.keyboard.press('End');
+  await expect(slider).toHaveAttribute('aria-valuenow','100');
+  await page.keyboard.press('ArrowRight');
+  await expect(slider).toHaveAttribute('aria-valuenow','100');
+  await page.waitForTimeout(1700);
+  await expect(slider).toHaveAttribute('aria-valuenow','100');
+  await expect(frame).toHaveClass(/is-interacted/);
+});
+
+test('hero reveal responds to finger swipes and stays within the mobile viewport', async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,baseURL:process.env.SITE_URL || 'http://127.0.0.1:4178'});
+  const page=await context.newPage();
+  await page.goto('/');
+  const frame=page.locator('[data-comparison]');
+  await frame.scrollIntoViewIfNeeded();
+  const box=await frame.boundingBox();
+  const client=await context.newCDPSession(page);
+  const start={x:box.x+box.width*.8,y:box.y+box.height/2};
+  const end={x:box.x+box.width*.2,y:start.y};
+  await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[start]});
+  await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[end]});
+  await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  await expect(page.getByRole('slider')).toHaveAttribute('aria-valuenow','20');
+  expect(await page.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth}))).toEqual({viewport:390,scroll:390});
+  await context.close();
+});
+
+test('reduced motion and no JavaScript keep a usable static split', async ({browser}) => {
+  const context=await browser.newContext({reducedMotion:'reduce',javaScriptEnabled:false,baseURL:process.env.SITE_URL || 'http://127.0.0.1:4178'});
+  const page=await context.newPage();
+  await page.goto('/');
+  await expect(page.locator('[data-comparison]')).toHaveAttribute('style','--reveal:50%');
+  await expect(page.locator('.comparison-photo img')).toHaveCount(2);
+  await expect(page.getByRole('slider')).toHaveCount(0);
+  await context.close();
+  const motion=await browser.newContext({reducedMotion:'reduce',baseURL:process.env.SITE_URL || 'http://127.0.0.1:4178'});
+  const reduced=await motion.newPage();
+  await reduced.goto('/');
+  await expect(reduced.getByRole('slider')).toHaveAttribute('aria-valuenow','50');
+  await reduced.waitForTimeout(1750);
+  await expect(reduced.getByRole('slider')).toHaveAttribute('aria-valuenow','50');
+  await motion.close();
+});
+
 test('header dagger moves continuously, with a glint and a reduced-motion fallback', async ({page}) => {
   await page.goto('/');
   const brand=page.getByRole('link',{name:'Dad With The Dagger home'});

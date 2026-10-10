@@ -31,13 +31,19 @@ test('home has the four requested sections and the exact disclosed affiliate lin
   assert.doesNotMatch(html, /(?:action|href)="[^"]*\/(?:cart|checkout)(?:[/?"])/i);
 });
 
-test('the hero uses James’s supplied two-panel photo without replacing the source', () => {
+test('the hero uses James’s original before and after photos without altering the source images', () => {
   const $ = load(readFileSync(home, 'utf8'));
-  const hero = $('.hero-portrait img');
-  assert.equal(hero.length, 1);
-  assert.equal(hero.attr('src'), '/assets/james-progress-hero.webp');
-  assert.match(hero.attr('alt'), /Two side-by-side photos of James/);
-  assert.ok(existsSync(new URL('../site/assets/james-progress-hero.webp', import.meta.url)));
+  const images = $('.hero-portrait .comparison-photo img');
+  assert.equal(images.length, 2);
+  assert.deepEqual(images.map((_, el) => $(el).attr('src')).get(), ['/assets/james-after-slider.webp','/assets/james-before-slider.webp']);
+  for (const image of images.toArray()) {
+    assert.match($(image).attr('alt'), /James.*(before|after) photo/);
+    assert.equal($(image).attr('width'),'1000');
+    assert.equal($(image).attr('height'),'2000');
+    assert.ok(existsSync(new URL(`../site${$(image).attr('src')}`,import.meta.url)));
+  }
+  assert.equal($('.hero-portrait [role="slider"]').attr('aria-valuenow'),'50');
+  assert.ok(existsSync(new URL('../site/assets/james-progress-hero.webp', import.meta.url)),'Preserve the old composite asset');
 });
 
 test('burrito recipe has the supplied photos, six servings and grouped ingredients without unverified macros', () => {
