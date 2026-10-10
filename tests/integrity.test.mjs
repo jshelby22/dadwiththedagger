@@ -8,7 +8,8 @@ function files(dir){return readdirSync(dir).flatMap(name=>{const path=join(dir,n
 
 test('every generated page has valid local links/assets, headings, metadata and unique IDs',()=>{
  const pages=files(root).filter(f=>f.endsWith('.html'));
- assert.equal(pages.length,6);
+ const recipeCount=JSON.parse(readFileSync(resolve(import.meta.dirname,'../content/recipes.json'),'utf8')).length;
+ assert.equal(pages.length,recipeCount+3);
  for(const page of pages){
   const $=load(readFileSync(page,'utf8'));
   assert.equal($('h1').length,1,page);

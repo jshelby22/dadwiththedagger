@@ -58,13 +58,25 @@ test('recipe checkboxes and print action work, with clean print styling', async 
   await page.pdf({path:'verification/recipe-print.pdf',format:'Letter',printBackground:true,margin:{top:'14mm',bottom:'14mm',left:'14mm',right:'14mm'}});
 });
 
+test('new burrito card opens its recipe with a photo and usable ingredient list', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.recipe-card').filter({hasText:'Cheesy jalapeño ranch chicken burritos'}).getByRole('link',{name:'Read the recipe'}).click();
+  await expect(page).toHaveURL(/\/recipes\/cheesy-jalapeno-ranch-chicken-burritos\/$/);
+  await expect(page.getByRole('heading',{name:'Cheesy jalapeño ranch chicken burritos'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'For the sauce'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'For the burritos'})).toBeVisible();
+  await page.getByRole('checkbox').first().check();
+  await expect(page.getByRole('checkbox').first()).toBeChecked();
+  await expect(page.locator('.recipe-cover')).toHaveJSProperty('naturalWidth',1600);
+});
+
 test('without JavaScript, navigation, recipes and affiliate link remain usable', async ({ browser }) => {
   const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844},baseURL:process.env.SITE_URL || 'http://127.0.0.1:4178'});
   const page=await context.newPage();
   await page.goto('/');
   await expect(page.locator('#main-nav')).toBeVisible();
   await expect(page.getByRole('link',{name:'Visit HTLT'})).toHaveAttribute('href','https://www.htltsupps.com?sca_ref=10886340.d8RxKeL1BQC');
-  await page.getByRole('link',{name:'Read the recipe'}).click();
+  await page.locator('a[href="/recipes/chicken-and-potatoes/"]').filter({hasText:'Read the recipe'}).click();
   await expect(page.locator('#ingredients')).toBeVisible();
   await context.close();
 });
@@ -75,7 +87,7 @@ for (const width of [320,390,768,1440]) {
     const errors=[];
     page.on('pageerror',error=>errors.push(error.message));
     page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});
-    const paths=['/','/recipes/chipotle-cheese-sauce/','/recipes/chicken-and-potatoes/','/recipes/smoky-chipotle-beef-pasta/','/privacy/','/404.html'];
+    const paths=['/','/recipes/chipotle-cheese-sauce/','/recipes/chicken-and-potatoes/','/recipes/smoky-chipotle-beef-pasta/','/recipes/cheesy-jalapeno-ranch-chicken-burritos/','/privacy/','/404.html'];
     for(const path of paths){
       const response=await page.goto(path);
       expect(response.status()).toBe(200); // Direct requests to the existing 404.html file succeed; unknown routes are tested separately.

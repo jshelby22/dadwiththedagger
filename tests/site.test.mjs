@@ -5,7 +5,7 @@ import { load } from 'cheerio';
 const home = new URL('../site/index.html', import.meta.url);
 
 test('all published recipe pages have ingredients, real navigation and no made-up nutrition', () => {
-  for (const slug of ['chipotle-cheese-sauce','chicken-and-potatoes','smoky-chipotle-beef-pasta']) {
+  for (const slug of ['chipotle-cheese-sauce','chicken-and-potatoes','smoky-chipotle-beef-pasta','cheesy-jalapeno-ranch-chicken-burritos']) {
     const path = new URL(`../site/recipes/${slug}/index.html`, import.meta.url);
     assert.ok(existsSync(path), `Recipe page missing: ${slug}`);
     const html = readFileSync(path, 'utf8');
@@ -38,6 +38,21 @@ test('the hero uses James’s supplied two-panel photo without replacing the sou
   assert.equal(hero.attr('src'), '/assets/james-progress-hero.webp');
   assert.match(hero.attr('alt'), /Two side-by-side photos of James/);
   assert.ok(existsSync(new URL('../site/assets/james-progress-hero.webp', import.meta.url)));
+});
+
+test('burrito recipe has the supplied photos, six servings and grouped ingredients without unverified macros', () => {
+  const $ = load(readFileSync(new URL('../site/recipes/cheesy-jalapeno-ranch-chicken-burritos/index.html', import.meta.url), 'utf8'));
+  assert.equal($('#main h1').text(), 'Cheesy jalapeño ranch chicken burritos');
+  assert.equal($('.recipe-cover').attr('src'), '/assets/jalapeno-ranch-chicken-burritos.webp');
+  assert.ok(existsSync(new URL('../site/assets/jalapeno-ranch-chicken-burritos.webp', import.meta.url)));
+  assert.match($('.recipe-meta').text(), /6 burritos/);
+  assert.deepEqual($('.ingredient-group h3').map((_,el)=>$(el).text()).get(), ['For the sauce','For the burritos']);
+  assert.equal($('.ingredients input[type="checkbox"]').length, 9);
+  assert.match($('#ingredients').text(), /2 lb Costco Chargrilled Chipotle Chicken/);
+  assert.match($('.recipe-note').text(), /can sizes/);
+  assert.doesNotMatch($('#main').text(), /416 kcal|42g|estimated macros per burrito/i);
+  const homePage = load(readFileSync(home, 'utf8'));
+  assert.equal(homePage('.recipe-grid a[href="/recipes/cheesy-jalapeno-ranch-chicken-burritos/"]').length, 3);
 });
 
 test('HTLT cards preserve all four supplied affiliate URLs and have matching local images', () => {
