@@ -66,7 +66,14 @@ test('five collection recipes preserve their own ingredients, methods, photo cav
   ];
   const homePage = load(readFileSync(home,'utf8'));
   assert.equal(homePage('.collection-grid .recipe-card').length,5);
-  assert.match(homePage('.collection-intro').text(),/haven't been cooked or taste-tested/);
+  assert.equal(homePage('.collection-intro').length,0);
+  assert.equal(homePage('.collection-grid .recipe-image .image-label').length,0);
+  assert.match(homePage('.section-heading').text(),/not yet kitchen-tested/);
+  assert.equal(homePage('.icon-credit').attr('href'),'https://www.flaticon.com/free-icon/arrows_13554816');
+  assert.ok(existsSync(new URL('../site/assets/flaticon-arrows-13554816.png',import.meta.url)));
+  const css=readFileSync(new URL('../site/assets/styles.css',import.meta.url),'utf8');
+  assert.match(css,/flaticon-arrows-13554816\.png/);
+  assert.match(css,/prefers-reduced-motion:reduce/);
   for(const [slug,count,ingredient] of expected){
     const recipe = recipes.find(item=>item.slug===slug);
     assert.ok(recipe,slug);

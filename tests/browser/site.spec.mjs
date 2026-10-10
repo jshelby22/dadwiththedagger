@@ -73,7 +73,9 @@ test('new burrito card opens its recipe with a photo and usable ingredient list'
 test('a collection card opens a measured recipe with untested and stock-photo labels', async ({ page }) => {
   await page.goto('/');
   const card=page.locator('.collection-grid .recipe-card').filter({hasText:'Crispy chicken with creamy dill pickle sauce'});
-  await expect(card.locator('.image-label')).toHaveText('Stock inspiration');
+  await expect(card.locator('.image-label')).toHaveCount(0);
+  await expect(page.locator('.collection-intro')).toHaveCount(0);
+  await expect(card.locator('.text-link .arrow-icon')).toBeVisible();
   await card.getByRole('link',{name:'Read the recipe'}).click();
   await expect(page).toHaveURL(/\/recipes\/crispy-chicken-dill-pickle-sauce\/$/);
   await expect(page.getByRole('heading',{name:'For the chicken'})).toBeVisible();
@@ -82,6 +84,18 @@ test('a collection card opens a measured recipe with untested and stock-photo la
   await page.getByRole('checkbox').first().check();
   await expect(page.getByRole('checkbox').first()).toBeChecked();
   await expect(page.locator('.recipe-cover')).toHaveJSProperty('naturalWidth',1200);
+});
+
+test('supplied arrows animate on focus or hover, and stop for reduced motion', async ({ page }) => {
+  await page.goto('/');
+  const link=page.locator('.collection-grid .recipe-card .text-link').first();
+  const icon=link.locator('.arrow-icon');
+  await expect(icon).toBeVisible();
+  expect(await icon.evaluate(el=>getComputedStyle(el).maskImage)).toContain('flaticon-arrows-13554816.png');
+  await link.hover();
+  expect(await icon.evaluate(el=>getComputedStyle(el).animationName)).toBe('arrow-nudge');
+  await page.emulateMedia({reducedMotion:'reduce'});
+  expect(await icon.evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
 });
 
 test('without JavaScript, navigation, recipes and affiliate link remain usable', async ({ browser }) => {

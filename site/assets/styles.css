@@ -23,13 +23,16 @@
 @media(max-width:1050px){.htlt-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.htlt-products{margin-top:44px;padding-top:32px}.htlt-products-heading{display:block}.htlt-products-heading>p{margin-top:16px}.htlt-product-grid{gap:12px}.htlt-product-copy{padding:13px}.htlt-product-name{font-size:18px}}
 @media(max-width:370px){.htlt-product-grid{grid-template-columns:1fr}.htlt-product img{max-height:260px}}
+/* Supplied Flaticon arrow; motion is interaction-only and respects reduced-motion. */
+.arrow-icon{--arrow-rotation:0deg;display:inline-block;flex:none;width:30px;height:20px;background:currentColor;-webkit-mask:url('/assets/flaticon-arrows-13554816.png') center/contain no-repeat;mask:url('/assets/flaticon-arrows-13554816.png') center/contain no-repeat;transform:rotate(var(--arrow-rotation));vertical-align:middle}
+.arrow-icon--back{--arrow-rotation:180deg}.arrow-icon--down{--arrow-rotation:90deg}.arrow-icon--up{--arrow-rotation:-90deg}
+@keyframes arrow-nudge{0%,100%{transform:rotate(var(--arrow-rotation)) translateX(0)}50%{transform:rotate(var(--arrow-rotation)) translateX(5px)}}
+a:is(:hover,:focus-visible,:active) .arrow-icon,button:is(:hover,:focus-visible,:active) .arrow-icon{animation:arrow-nudge .65s ease-in-out}
+.breadcrumb{gap:7px}.footer-top a:has(.arrow-icon){display:inline-flex;gap:5px;align-items:center}.footer-top .arrow-icon{width:22px;height:18px}.icon-credit{text-decoration:underline;text-underline-offset:3px}
 /* Five-recipe collection, separated from James's kitchen photos */
-.collection-intro{border-top:1px solid var(--line);margin-top:66px;padding-top:42px;max-width:770px}
-.collection-intro h3{margin-top:12px;font-size:clamp(29px,3.2vw,39px)}
-.collection-intro>p:last-child{margin-top:14px;color:var(--muted);font-size:15px}
-.collection-grid{margin-top:32px;row-gap:50px}
-.collection-grid .image-label{font-size:10px}
-@media(max-width:760px){.collection-intro{margin-top:48px;padding-top:30px}.collection-grid{row-gap:38px}}
+.collection-grid{margin-top:44px;row-gap:50px}
+@media(max-width:760px){.collection-grid{margin-top:34px;row-gap:38px}}
+@media(prefers-reduced-motion:reduce){a .arrow-icon,button .arrow-icon{animation:none!important}}
 /* Recipe pages */
 
 .ingredient-group{padding:23px 3px 10px;border-top:0!important}.ingredient-group:first-child{padding-top:0}.ingredient-group h3{font-size:19px;letter-spacing:-.02em}
