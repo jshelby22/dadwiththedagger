@@ -95,6 +95,23 @@ test('recipe notebook strip is blank between two separator lines', async ({page}
   await expect(page.locator('.collection-grid .recipe-card')).toHaveCount(5);
 });
 
+test('header dagger moves continuously, with a glint and a reduced-motion fallback', async ({page}) => {
+  await page.goto('/');
+  const brand=page.getByRole('link',{name:'Dad With The Dagger home'});
+  const mark=brand.locator('.brand-mark');
+  const icon=mark.locator('img');
+  await expect(icon).toHaveAttribute('src','/assets/dagger-mark.svg');
+  await expect(brand).toHaveAttribute('href','/');
+  const motion=await icon.evaluate(el=>({name:getComputedStyle(el).animationName,count:getComputedStyle(el).animationIterationCount,glint:getComputedStyle(el.parentElement,'::after').animationName}));
+  expect(motion).toEqual({name:'dagger-hover',count:'infinite',glint:'dagger-shine'});
+  const first=await icon.evaluate(el=>getComputedStyle(el).transform);
+  await page.waitForTimeout(500);
+  expect(await icon.evaluate(el=>getComputedStyle(el).transform)).not.toBe(first);
+  await page.emulateMedia({reducedMotion:'reduce'});
+  expect(await icon.evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
+  expect(await mark.evaluate(el=>getComputedStyle(el,'::after').animationName)).toBe('none');
+});
+
 test('supplied arrows animate on focus or hover, and stop for reduced motion', async ({ page }) => {
   await page.goto('/');
   const link=page.locator('.collection-grid .recipe-card .text-link').first();
