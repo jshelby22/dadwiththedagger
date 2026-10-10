@@ -66,6 +66,10 @@ test('five collection recipes preserve their own ingredients, methods, photo cav
   ];
   const homePage = load(readFileSync(home,'utf8'));
   assert.equal(homePage('.collection-grid .recipe-card').length,5);
+  assert.equal(homePage('.notebook-link').length,0);
+  assert.equal(homePage('.notebook-separator').length,1);
+  assert.equal(homePage('.notebook-separator').text(),'');
+  assert.equal(homePage('a[href="/recipes/smoky-chipotle-beef-pasta/"]').length,0);
   assert.equal(homePage('.collection-intro').length,0);
   assert.equal(homePage('.collection-grid .recipe-image .image-label').length,0);
   assert.match(homePage('.section-heading').text(),/not yet kitchen-tested/);

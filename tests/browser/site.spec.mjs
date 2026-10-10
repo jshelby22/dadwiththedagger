@@ -86,6 +86,15 @@ test('a collection card opens a measured recipe with untested and stock-photo la
   await expect(page.locator('.recipe-cover')).toHaveJSProperty('naturalWidth',1200);
 });
 
+test('recipe notebook strip is blank between two separator lines', async ({page}) => {
+  await page.goto('/');
+  const separator=page.locator('.notebook-separator');
+  await expect(separator).toHaveCount(1);
+  await expect(separator).toBeVisible();
+  expect(await separator.evaluate(el=>({text:el.textContent.trim(),children:el.children.length,top:getComputedStyle(el).borderTopWidth,bottom:getComputedStyle(el).borderBottomWidth}))).toEqual({text:'',children:0,top:'1px',bottom:'1px'});
+  await expect(page.locator('.collection-grid .recipe-card')).toHaveCount(5);
+});
+
 test('supplied arrows animate on focus or hover, and stop for reduced motion', async ({ page }) => {
   await page.goto('/');
   const link=page.locator('.collection-grid .recipe-card .text-link').first();
