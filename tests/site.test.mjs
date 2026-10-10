@@ -5,7 +5,7 @@ import { load } from 'cheerio';
 const home = new URL('../site/index.html', import.meta.url);
 
 test('all published recipe pages have ingredients, real navigation and no made-up nutrition', () => {
-  for (const slug of ['chipotle-cheese-sauce','chicken-and-potatoes','smoky-chipotle-beef-pasta','cheesy-jalapeno-ranch-chicken-burritos']) {
+  for (const slug of ['chipotle-cheese-sauce','chicken-and-potatoes','smoky-chipotle-beef-pasta','cheesy-jalapeno-ranch-chicken-burritos','bbq-jalapeno-chicken','cajun-cream-chicken','creamy-salsa-verde-chicken','creamy-pizza-chicken','crispy-chicken-dill-pickle-sauce']) {
     const path = new URL(`../site/recipes/${slug}/index.html`, import.meta.url);
     assert.ok(existsSync(path), `Recipe page missing: ${slug}`);
     const html = readFileSync(path, 'utf8');
@@ -53,6 +53,38 @@ test('burrito recipe has the supplied photos, six servings and grouped ingredien
   assert.doesNotMatch($('#main').text(), /416 kcal|42g|estimated macros per burrito/i);
   const homePage = load(readFileSync(home, 'utf8'));
   assert.equal(homePage('.recipe-grid a[href="/recipes/cheesy-jalapeno-ranch-chicken-burritos/"]').length, 3);
+});
+
+test('five collection recipes preserve their own ingredients, methods, photo caveats and untested status', () => {
+  const recipes = JSON.parse(readFileSync(new URL('../content/recipes.json', import.meta.url), 'utf8'));
+  const expected = [
+    ['bbq-jalapeno-chicken',11,'sugar-free BBQ sauce'],
+    ['cajun-cream-chicken',11,'Cajun seasoning'],
+    ['creamy-salsa-verde-chicken',13,'salsa verde'],
+    ['creamy-pizza-chicken',12,'turkey pepperoni'],
+    ['crispy-chicken-dill-pickle-sauce',15,'pickle brine'],
+  ];
+  const homePage = load(readFileSync(home,'utf8'));
+  assert.equal(homePage('.collection-grid .recipe-card').length,5);
+  assert.match(homePage('.collection-intro').text(),/haven't been cooked or taste-tested/);
+  for(const [slug,count,ingredient] of expected){
+    const recipe = recipes.find(item=>item.slug===slug);
+    assert.ok(recipe,slug);
+    assert.equal(recipe.yield,'4 servings');
+    assert.equal(recipe.steps.length,6);
+    const $ = load(readFileSync(new URL(`../site/recipes/${slug}/index.html`,import.meta.url),'utf8'));
+    assert.equal($('.ingredients input[type="checkbox"]').length,count);
+    assert.equal($('.method-list li').length,6);
+    assert.ok($('#ingredients').text().includes(ingredient));
+    assert.match($('.recipe-meta').text(),/From the Five Creamy Chicken Recipes collection/);
+    assert.match($('.recipe-note').text(),/not a dish James has tested/);
+    assert.match($('.recipe-caption').text(),/not this|not the/);
+    assert.doesNotMatch($('.recipe-note').text(),/\b(?:349|354|364|409|407) kcal\b/);
+    assert.equal($('.recipe-cover').attr('src'),`/assets/${recipe.image}`);
+    assert.ok(existsSync(new URL(`../site/assets/${recipe.image}`,import.meta.url)));
+    assert.equal(homePage(`.collection-grid .recipe-card a[href="/recipes/${slug}/"]`).length,3);
+  }
+  assert.deepEqual(load(readFileSync(new URL('../site/recipes/crispy-chicken-dill-pickle-sauce/index.html',import.meta.url),'utf8'))('.ingredient-group h3').map((_,el)=>el.children[0].data).get(),['For the chicken','For the dipping sauce']);
 });
 
 test('HTLT cards preserve all four supplied affiliate URLs and have matching local images', () => {

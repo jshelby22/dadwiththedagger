@@ -70,6 +70,20 @@ test('new burrito card opens its recipe with a photo and usable ingredient list'
   await expect(page.locator('.recipe-cover')).toHaveJSProperty('naturalWidth',1600);
 });
 
+test('a collection card opens a measured recipe with untested and stock-photo labels', async ({ page }) => {
+  await page.goto('/');
+  const card=page.locator('.collection-grid .recipe-card').filter({hasText:'Crispy chicken with creamy dill pickle sauce'});
+  await expect(card.locator('.image-label')).toHaveText('Stock inspiration');
+  await card.getByRole('link',{name:'Read the recipe'}).click();
+  await expect(page).toHaveURL(/\/recipes\/crispy-chicken-dill-pickle-sauce\/$/);
+  await expect(page.getByRole('heading',{name:'For the chicken'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'For the dipping sauce'})).toBeVisible();
+  await expect(page.locator('.recipe-note')).toContainText('not a dish James has tested');
+  await page.getByRole('checkbox').first().check();
+  await expect(page.getByRole('checkbox').first()).toBeChecked();
+  await expect(page.locator('.recipe-cover')).toHaveJSProperty('naturalWidth',1200);
+});
+
 test('without JavaScript, navigation, recipes and affiliate link remain usable', async ({ browser }) => {
   const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844},baseURL:process.env.SITE_URL || 'http://127.0.0.1:4178'});
   const page=await context.newPage();
@@ -87,7 +101,7 @@ for (const width of [320,390,768,1440]) {
     const errors=[];
     page.on('pageerror',error=>errors.push(error.message));
     page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});
-    const paths=['/','/recipes/chipotle-cheese-sauce/','/recipes/chicken-and-potatoes/','/recipes/smoky-chipotle-beef-pasta/','/recipes/cheesy-jalapeno-ranch-chicken-burritos/','/privacy/','/404.html'];
+    const paths=['/','/recipes/chipotle-cheese-sauce/','/recipes/chicken-and-potatoes/','/recipes/smoky-chipotle-beef-pasta/','/recipes/cheesy-jalapeno-ranch-chicken-burritos/','/recipes/bbq-jalapeno-chicken/','/recipes/cajun-cream-chicken/','/recipes/creamy-salsa-verde-chicken/','/recipes/creamy-pizza-chicken/','/recipes/crispy-chicken-dill-pickle-sauce/','/privacy/','/404.html'];
     for(const path of paths){
       const response=await page.goto(path);
       expect(response.status()).toBe(200); // Direct requests to the existing 404.html file succeed; unknown routes are tested separately.
