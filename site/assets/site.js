@@ -23,13 +23,19 @@ if (menu && navigation) {
 
 for (const button of document.querySelectorAll('[data-copy]')) {
   button.hidden = false;
+  const originalLabel = button.textContent;
+  let resetTimer;
   button.addEventListener('click', async () => {
     const status = button.closest('.affiliate-card').querySelector('[role="status"]');
+    clearTimeout(resetTimer);
     try {
       if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
       await navigator.clipboard.writeText(button.dataset.copy);
       status.textContent = `Code copied: ${button.dataset.copy}`;
+      button.textContent = 'Copied!';
+      resetTimer = setTimeout(() => { button.textContent = originalLabel; }, 2000);
     } catch {
+      button.textContent = originalLabel;
       status.textContent = `Select and copy ${button.dataset.copy} above.`;
     }
   });
@@ -126,4 +132,36 @@ if (comparison) {
       setValue(50);
     }
   });
+}
+
+// Only animate the homepage. Without JavaScript or an observer, all copy is visible.
+const textMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+if ('IntersectionObserver' in window && !textMotion.matches) {
+  const heroTargets = [...document.querySelectorAll('.hero-copy, #hero-title')];
+  const scrollTargets = [...document.querySelectorAll('[data-reveal]:not(#hero-title), .about-copy, .section-aside, .section-heading > p, .recipe-card')];
+  if (heroTargets.length || scrollTargets.length) {
+    let pending = scrollTargets.length;
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+        if (--pending === 0) observer.disconnect();
+      }
+    }, {rootMargin:'0px 0px -30px 0px', threshold:0.05});
+    for (const [index, card] of [...document.querySelectorAll('.recipe-card')].entries()) {
+      card.style.setProperty('--stagger', `${index % 3 * 100}ms`);
+    }
+    for (const target of [...heroTargets, ...scrollTargets]) target.classList.add('motion-ready');
+    for (const target of scrollTargets) observer.observe(target);
+    // Paint the initial state before starting the load animation.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      for (const target of heroTargets) target.classList.add('is-visible');
+    }));
+    textMotion.addEventListener('change', event => {
+      if (!event.matches) return;
+      observer.disconnect();
+      for (const target of [...heroTargets, ...scrollTargets]) target.classList.remove('motion-ready');
+    });
+  }
 }

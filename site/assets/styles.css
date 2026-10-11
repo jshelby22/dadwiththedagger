@@ -63,4 +63,45 @@ a:is(:hover,:focus-visible,:active) .arrow-icon,button:is(:hover,:focus-visible,
 @media(max-width:760px){html{scroll-padding-top:85px}.shell{width:calc(100% - 40px)}.header-inner{min-height:78px;flex-wrap:wrap;padding-block:12px;gap:12px}.brand{font-size:16px;gap:10px}.brand-mark{width:32px;height:43px}.brand-mark img{width:18px;height:31px}.main-nav{width:100%;gap:0;flex-wrap:wrap;justify-content:space-between;font-size:12px;padding-bottom:8px}.main-nav .nav-social{margin-left:0}.js-ready .menu-toggle{display:block}.js-ready .main-nav{display:none}.js-ready .main-nav.is-open{display:flex;flex-direction:column;align-items:stretch;gap:0;border-top:1px solid var(--line);padding-top:12px}.js-ready .main-nav.is-open>a{min-height:49px;padding-inline:3px}.hero{grid-template-columns:1fr;gap:30px;padding-block:41px 37px}.hero-copy{padding:0}.hero .eyebrow{font-size:9px;letter-spacing:.065em}.hero h1{font-size:clamp(58px,12vw,80px);margin-top:25px}.hero-description{font-size:16px;line-height:1.7;max-width:440px;margin-top:22px}.hero-actions{margin-top:25px;gap:22px}.hero-actions .text-link{font-size:13px;gap:12px}.hero-footnote{margin-top:19px;font-size:11px}.hero-portrait{max-width:530px;width:100%}.hero-portrait figcaption{padding:3px 12px;font-size:10px}.chapter-strip>.shell{padding-block:17px;font-size:10px;gap:10px;flex-wrap:wrap}.chapter-strip span+span:before{margin-right:12px}.section{padding-block:64px}.about-section{grid-template-columns:1fr;gap:32px}.eyebrow+h2{margin-top:17px}.about-copy>.lead{font-size:23px;margin-bottom:22px}.about-copy p{font-size:15px}.section-heading{display:block;margin-bottom:30px}.section-heading>p{max-width:440px;margin-top:24px}.recipe-grid{gap:33px;grid-template-columns:1fr}.recipe-card-copy{padding-top:19px}.recipe-card-copy h3{font-size:29px}.recipe-card-copy .text-link{margin-top:7px}.recipe-image>img{aspect-ratio:1.45}.notebook-separator{margin-top:34px;height:94px}.sauce-section{grid-template-columns:1fr;gap:34px}.sauce-photo img{aspect-ratio:1.1;object-position:50% 58%}.sauce-copy h2{font-size:40px}.sauce-copy .button{margin-top:27px}.affiliate-layout{grid-template-columns:1fr;gap:32px}.affiliate-card{padding:29px}.offer-heading strong{font-size:38px}.affiliate-intro>p:not(.eyebrow){font-size:15px}.affiliate-intro .affiliate-disclosure{margin-top:23px}.closing-section{padding-block:61px}.closing-section>div{display:block}.closing-section h2{font-size:39px}.closing-section .text-link{font-size:16px;margin-top:26px}.footer-top{align-items:flex-start;flex-direction:column;gap:11px;padding-block:26px 18px}.footer-top>div{gap:25px}.footer-bottom{display:block;font-size:10px}.footer-bottom p+p{margin-top:12px}.recipe-page{padding-block:30px 60px}.breadcrumb{margin-bottom:22px}.recipe-header h1{font-size:46px}.recipe-deck{font-size:16px}.recipe-content{grid-template-columns:1fr;gap:38px;margin-top:30px;padding-top:32px}.recipe-cover{aspect-ratio:1.25;margin-top:30px}.recipe-note{padding:23px}.reading-page{padding-block:40px 60px}.reading-page h1{font-size:42px}.recipe-meta{gap:10px 20px}}
 @media(max-width:370px){.shell{width:calc(100% - 32px)}.hero .eyebrow{font-size:8px}.hero-actions{gap:12px}.hero-actions .text-link{font-size:12px}.button{padding:12px 16px;gap:20px}.chapter-strip>.shell{font-size:9px;gap:6px}.chapter-strip span+span:before{margin-right:6px}.affiliate-card{padding:24px}.code-box{gap:10px}.code-box code{font-size:20px}.offer-heading strong{font-size:33px}.recipe-header h1{font-size:40px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+/* One-time homepage reveals: visible by default, opt-in only after JS is ready. */
+.reveal-line,.reveal-word,.section-number,.section-label{display:inline-block;max-width:100%;vertical-align:baseline}
+.motion-ready .reveal-line,.motion-ready .reveal-word,.motion-ready .section-number,.motion-ready .section-label{opacity:0}
+.motion-ready.hero-copy .hero-description,.motion-ready.hero-copy .hero-actions a,
+.motion-ready.about-copy p,.motion-ready.about-copy .text-link,
+.motion-ready.section-aside,.section-heading>p.motion-ready,
+.recipe-card.motion-ready{opacity:0}
+@keyframes text-rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes headline-rise{from{opacity:0;transform:translateY(24px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes number-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sauce-rise{from{opacity:0;color:#69736a;transform:translateY(14px)}to{opacity:1;color:var(--ink);transform:translateY(0)}}
+.motion-ready.is-visible .reveal-line{animation:text-rise 650ms cubic-bezier(.22,1,.36,1) both}
+.motion-ready.is-visible .reveal-line:nth-of-type(2){animation-delay:150ms}
+#sauce-title.motion-ready.is-visible .reveal-line{animation:sauce-rise 650ms cubic-bezier(.22,1,.36,1) both}
+#sauce-title.motion-ready.is-visible .reveal-line:nth-of-type(3){animation-delay:300ms}
+#hero-title.motion-ready.is-visible .reveal-line{animation:headline-rise 900ms cubic-bezier(.22,1,.36,1) both}
+.hero-copy.motion-ready.is-visible .hero-description{animation:text-rise 600ms cubic-bezier(.22,1,.36,1) 950ms both}
+.hero-copy.motion-ready.is-visible .hero-actions a{animation:text-rise 450ms cubic-bezier(.22,1,.36,1) 1150ms both}
+.hero-copy.motion-ready.is-visible .hero-actions a:nth-child(2){animation-delay:1225ms}
+#about-title.motion-ready.is-visible .reveal-word{animation:text-rise 500ms cubic-bezier(.22,1,.36,1) both}
+#about-title.motion-ready.is-visible .reveal-word:nth-of-type(2){animation-delay:100ms}
+#about-title.motion-ready.is-visible .reveal-word:nth-of-type(3){animation-delay:200ms}
+.about-copy.motion-ready.is-visible p,.about-copy.motion-ready.is-visible .text-link,
+.section-aside.motion-ready.is-visible,.section-heading>p.motion-ready.is-visible,
+.recipe-card.motion-ready.is-visible{animation:text-rise 550ms cubic-bezier(.22,1,.36,1) both}
+.about-copy.motion-ready.is-visible p{animation-delay:350ms}
+.about-copy.motion-ready.is-visible p:nth-of-type(2){animation-delay:450ms}
+.about-copy.motion-ready.is-visible p:nth-of-type(3){animation-delay:550ms}
+.about-copy.motion-ready.is-visible .text-link{animation-delay:600ms}
+.section-heading>p.motion-ready.is-visible{animation-delay:200ms}
+.recipe-card.motion-ready.is-visible{animation-delay:var(--stagger,0ms)}
+.eyebrow.motion-ready.is-visible .section-number{animation:number-rise 450ms cubic-bezier(.22,1,.36,1) both}
+.eyebrow.motion-ready.is-visible .section-label{animation:number-rise 450ms cubic-bezier(.22,1,.36,1) 90ms both}
+/* Existing colors and underlines remain; only the underline's draw is new. */
+@media(hover:hover){.recipe-card h3 a{background-image:linear-gradient(var(--accent),var(--accent));background-size:0 1px;background-position:0 100%;background-repeat:no-repeat;transition:color .2s ease,background-size .2s ease}.recipe-card h3 a:hover{background-size:100% 1px}}
+.recipe-card h3 a:focus-visible{background-image:linear-gradient(var(--accent),var(--accent));background-size:100% 1px;background-position:0 100%;background-repeat:no-repeat}
+#discount-code{background-image:linear-gradient(currentColor,currentColor);background-size:0 1px;background-position:0 100%;background-repeat:no-repeat;transition:background-size .25s ease}
+.code-box:is(:hover,:focus-within) #discount-code{background-size:100% 1px}
+.site-footer a:not(.brand),.closing-section .text-link{background-image:linear-gradient(var(--accent),var(--accent));background-size:0 1px;background-position:0 100%;background-repeat:no-repeat;transition:color .2s ease,background-size .2s ease}
+.site-footer a:not(.brand):is(:hover,:focus-visible),.closing-section .text-link:is(:hover,:focus-visible){background-size:100% 1px;color:var(--accent)}
+@media(max-width:760px){#hero-title.motion-ready.is-visible .reveal-line{animation-name:text-rise}}
 @media print{body{background:white;color:#000;font-size:12pt}.site-header,.site-footer,.skip-link,.breadcrumb,.recipe-tools,.recipe-cover,.recipe-caption,.menu-toggle{display:none!important}.shell{width:100%;max-width:none;margin:0}.recipe-page{padding:0}.recipe-header h1{font-size:28pt}.recipe-page :is(p,li,label,.recipe-meta,.eyebrow){font-size:12pt}.recipe-content{grid-template-columns:1fr;gap:28px;margin-top:22px;padding-top:22px}.recipe-content h2{font-size:18pt}.ingredients label,.method-list li{font-size:12pt;line-height:1.4}.ingredients label{min-height:0;padding-block:8px}.ingredients input{display:none}.ingredients input:checked+span{color:inherit;text-decoration:none}.recipe-note{background:none;border:1px solid #aaa;padding:12px;break-inside:avoid}.recipe-note h3,.recipe-safety h3{font-size:14pt}.recipe-header,.method-list li,.recipe-safety{break-inside:avoid}.recipe-content h2,.recipe-content h3{break-after:avoid}a{color:#000}.recipe-credit{margin-top:22px}.recipe-meta{margin-top:15px}p{orphans:3;widows:3}}

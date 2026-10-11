@@ -23,7 +23,9 @@ test('discount copy button writes the exact code and gives accessible feedback',
   await page.goto('/');
   await page.getByRole('button',{name:'Copy discount code DADDAGGER'}).click();
   await expect(page.getByRole('status')).toHaveText('Code copied: DADDAGGER');
+  await expect(page.getByRole('button',{name:'Copy discount code DADDAGGER'})).toHaveText('Copied!');
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('DADDAGGER');
+  await expect(page.getByRole('button',{name:'Copy discount code DADDAGGER'})).toHaveText('Copy code',{timeout:3000});
 });
 
 test('blocked clipboard offers honest manual-copy instructions', async ({ page }) => {
@@ -31,6 +33,57 @@ test('blocked clipboard offers honest manual-copy instructions', async ({ page }
   await page.goto('/');
   await page.getByRole('button',{name:'Copy discount code DADDAGGER'}).click();
   await expect(page.getByRole('status')).toHaveText('Select and copy DADDAGGER above.');
+  await expect(page.getByRole('button',{name:'Copy discount code DADDAGGER'})).toHaveText('Copy code');
+});
+
+test('homepage copy animates once and retains heading semantics, links and slider', async ({page}) => {
+  await page.goto('/');
+  const hero=page.getByRole('heading',{level:1,name:'Food, fitness & real life.'});
+  await expect(hero).toBeVisible();
+  await expect(hero).toHaveClass(/is-visible/);
+  expect(await hero.locator('.reveal-line').first().evaluate(el=>getComputedStyle(el).animationDuration)).toBe('0.9s');
+  await expect(page.getByRole('slider',{name:"Compare James's before and after photos"})).toBeVisible();
+  const about=page.getByRole('heading',{level:2,name:"Hey, I'm James."});
+  await about.scrollIntoViewIfNeeded();
+  await expect(about).toHaveClass(/is-visible/);
+  await expect(about.locator('.reveal-word')).toHaveCount(3);
+  const cards=page.locator('.recipe-card');
+  await cards.first().scrollIntoViewIfNeeded();
+  await expect(cards.first()).toHaveClass(/is-visible/);
+  await page.waitForTimeout(750);
+  expect(await cards.first().evaluate(el=>getComputedStyle(el).opacity)).toBe('1');
+  for (const selector of ['#recipes-title','#sauce-title','.sauce-section .eyebrow','.affiliate-intro .eyebrow']) {
+    const el=page.locator(selector);
+    await el.scrollIntoViewIfNeeded();
+    await expect(el).toHaveClass(/is-visible/);
+  }
+  await expect(page.locator('.section-number')).toHaveText(['01','02','03','04']);
+  const link=cards.first().locator('h3 a');
+  await link.hover();
+  await expect.poll(()=>link.evaluate(el=>getComputedStyle(el).backgroundSize)).toBe('100% 1px');
+  const footer=page.locator('.footer-top a[href="/privacy/"]');
+  await footer.focus();
+  await expect.poll(()=>footer.evaluate(el=>getComputedStyle(el).backgroundSize)).toBe('100% 1px');
+});
+
+test('reduced motion, missing observer and no JavaScript keep copy visible',async ({browser})=>{
+  for(const options of [{reducedMotion:'reduce'},{javaScriptEnabled:false}]){
+    const context=await browser.newContext({...options,baseURL:process.env.SITE_URL || 'http://127.0.0.1:4178'});
+    const page=await context.newPage();
+    await page.goto('/');
+    for(const selector of ['#hero-title','#about-title','#recipes-title','#sauce-title','.recipe-card']){
+      const el=page.locator(selector).first();
+      expect(await el.evaluate(node=>getComputedStyle(node).opacity)).toBe('1');
+      await expect(el).not.toHaveClass(/motion-ready/);
+    }
+    await context.close();
+  }
+  const context=await browser.newContext({baseURL:process.env.SITE_URL || 'http://127.0.0.1:4178'});
+  await context.addInitScript(()=>{delete window.IntersectionObserver;});
+  const page=await context.newPage();
+  await page.goto('/');
+  await expect(page.locator('.recipe-card').first()).not.toHaveClass(/motion-ready/);
+  await context.close();
 });
 
 test('desktop uses visible navigation without a mobile menu button', async ({ page }) => {
@@ -98,8 +151,9 @@ test('recipe notebook strip is blank between two separator lines', async ({page}
 test('hero entrance starts at 80%, reaches 50% once in view, and stops immediately on interaction', async ({page}) => {
   await page.addInitScript(() => {
     window.IntersectionObserver=class {
-      constructor(callback){this.callback=callback;window.testComparisonObserver=this;}
-      observe(target){this.target=target;}
+      constructor(callback){this.callback=callback;}
+      observe(target){this.target=target;if(target.matches('[data-comparison]'))window.testComparisonObserver=this;}
+      unobserve(){}
       disconnect(){}
       fire(){this.callback([{isIntersecting:true,target:this.target}]);}
     };
